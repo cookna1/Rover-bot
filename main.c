@@ -20,10 +20,10 @@ int main(void)
 	int offtime= 16144; // OFFTIME
 	int ontime = 4688;  // ONTIME
 
-	int period = offtime + ontime;
+	int period = offtime + ontime; //total time
 
-	int top = (ontime / 2) + (offtime / 2);
-	int mid = (ontime / 2);
+	int top = (ontime / 2) + (offtime / 2); //half total time
+	int mid = (ontime / 2); //half ontime
 
 	//set TOP
 	ICR1 = period;
