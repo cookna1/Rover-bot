@@ -5,7 +5,7 @@ Rover-bot is an autonomous robot project for Embedded Systems by Andrew Thorp, E
 
 Below is a brief specification:
 
-![Parts list](Part Spec.png)
+![Parts list](Rover-bot/Robot API.png)
 
 Software API:
-![Top Level API](Tobot API.png)
+![Top Level API](/Robot API.png)
