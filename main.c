@@ -17,8 +17,8 @@ volatile unsigned char sigHigh = 1;
 int main(void)
 {
 	// period 333.33 ms, on-time = 75 ms
-	int offtime= 16144; // OFFTIME
-	int ontime = 4688;  // ONTIME
+	int offtime= 2500;//16144; // OFFTIME
+	int ontime = 2500;//4688;  // ONTIME
 
 	int period = offtime + ontime; //total time
 
@@ -35,7 +35,7 @@ int main(void)
 
 	// Timer clock = I/O clock
 	// no prescaling
-	TCCR1B |=  (1 << CS12) | (1 << WGM13);
+	TCCR1B |= (1 << CS10) | (1 << WGM13);
 
 
 
