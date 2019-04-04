@@ -58,21 +58,8 @@ int main(void)
 // Timer 1 CTC interrupt service routine (ISR)
 //----------------------------------------------------------------------
 ISR(TIMER1_COMPA_vect){
-	// start the timer
-	PORTB ^= 0x80;
-	//PINB;
-	/*
-	if (!TCCR1B){
-		TCCR1B = 0x04; //start TCCR1B
-				   //stop ICR1
-		PORTB ^= 0x80;
-	}
-	else {
-		TCCR1B = 0; //stop TCCR1B
-					   //start ICR1
-		PORTB ^= 0x80;
-	}
-	*/
+	// Send the PWM to output port that drives motor
+	PORTB ^= 0x80; //can change to whatever output port is
 }
 
 
