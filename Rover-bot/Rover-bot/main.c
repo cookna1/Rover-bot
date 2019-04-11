@@ -16,20 +16,29 @@
 
 int main(void)
 {
-PORTB |= 0x80;
+//PORTB |= 0x80;
 initWheels();
 
-sei();
+//sei();
 
 /* Replace with your application code */
-
+	//_delay_ms(1);
+	//changeDirection(FORWARD, L_WHEEL);
+	
+	DDRC = 0x0F;
+	DDRL = 0x0F;
 	while (1)
 	{
+		changeDirection(FORWARD, R_WHEEL);
+		//PORTL = 0x08;
+		_delay_ms(5000);
+		changeDirection(BACKWARD, R_WHEEL);
+		_delay_ms(5000);
+		//_delay_ms(5000);
+		//changeDirection(FORWARD, L_WHEEL);
+		//_delay_ms(5000);
+		//changeDirection(BACKWARD, L_WHEEL);
 		
-		_delay_ms(1000);
-		changeDirection(FORWARD, L_WHEEL);
-		_delay_ms(1000);
-		changeDirection(BACKWARD, L_WHEEL);
 	}
 }
 
