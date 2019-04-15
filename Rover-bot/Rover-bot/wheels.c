@@ -41,6 +41,14 @@ void initWheels() {
 	PORTC |= L_FORWARD;
 	PORTC |= R_FORWARD; 
 	
+	// setup photoregister slit detection.
+	PORTJ &= ~((1 << PJ1) | (1 << PJ0));
+	
+	PCMSK1 |= PCINT14;
+	PCMSK1 |= PCINT15;
+	
+	PCICR |= PCIE1;
+	
 }
 
 void changeDirection(int direction, int wheelNumber) {
@@ -68,10 +76,15 @@ void setDutyCycle(float dutycycle, int wheel) {
 		if (wheel == L_WHEEL) OCR5A = 0;
 		else if (wheel == R_WHEEL) OCR5B = 0;
 	} else {
-		int ontime = ((int)(dutycycle * 250.0) + 500) ;
+		int ontime = ((int)(dutycycle * 400.0) + 500) ;
 		
 		if (wheel == L_WHEEL) OCR5A = ontime;
 		else if (wheel == R_WHEEL) OCR5B = ontime;
 	}
 }
 
+int mps = 10;
+
+void adjustSpeed() {
+	
+}

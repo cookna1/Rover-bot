@@ -17,47 +17,26 @@
 int main(void)
 {
 //PORTB |= 0x80;
-initWheels();
-
-//sei();
+	initWheels();
+	DDRB = 0x80;
+	PORTJ &= ~(1 << PJ1);
+	sei();
 
 /* Replace with your application code */
 	//_delay_ms(1);
 	//changeDirection(FORWARD, L_WHEEL);
 	
-	
+	//setDutyCycle(1, L_WHEEL);
+	setDutyCycle(.1, R_WHEEL);
 	while (1)
 	{
-		//changeDirection(FORWARD, R_WHEEL);
-		//PORTL = 0x10;
-		
-		setDutyCycle(1, L_WHEEL);
-		setDutyCycle(1, R_WHEEL);
-		_delay_ms(8000);
-		
-		setDutyCycle(0, L_WHEEL);
-		setDutyCycle(0, R_WHEEL);
-		_delay_ms(3000);
-		
-		changeDirection(BACKWARD, R_WHEEL);
-		changeDirection(BACKWARD, L_WHEEL);
-		
-		setDutyCycle(1, L_WHEEL);
-		setDutyCycle(1, R_WHEEL);
-		_delay_ms(8000);
-		
-		setDutyCycle(0, L_WHEEL);
-		setDutyCycle(0, R_WHEEL);
-		_delay_ms(3000);
-		
-		changeDirection(FORWARD, R_WHEEL);
-		changeDirection(FORWARD, L_WHEEL);
-		//_delay_ms(5000);
-		//_delay_ms(5000);
-		//changeDirection(FORWARD, L_WHEEL);
-		//_delay_ms(5000);
-		//changeDirection(BACKWARD, L_WHEEL);
-		
+		int on = PINJ & (1<<PJ1);
+		if (on) {
+			PORTB |= 0x80;
+		}
+		else {
+			PORTB &= ~0x80;
+		}
 	}
 }
 
