@@ -17,8 +17,22 @@ volatile int l_setting;
 volatile int r_setting;
 
 int offtime = 10;
-int r_ontime;
-int l_ontime;
+
+// right wheel is master 
+// left wheel is slave
+int r_time;
+int l_time;
+
+// pin 15 reads the right wheel, functions as the master 
+/*ISR(PCINT10) {
+	
+}
+
+// pin 14 reads the left wheel and is driven as a slave. 
+ISR(PCINT9) {
+		
+		
+}*/
 
 void initWheels() {
 	DDRC |= 0x0F; 
@@ -31,23 +45,23 @@ void initWheels() {
 
 	// set up left timer
 	ICR5 = period;
-	setDutyCycle(0, L_WHEEL);
-	setDutyCycle(0, R_WHEEL);
+	setDutyCycle(1, L_WHEEL);
+	setDutyCycle(1, R_WHEEL);
 
-	TCCR5A = (1<<COM5A1) | (1<<COM5B1);
-	TCCR5B |= (1 << CS51) | (1 <<WGM53);
-	TIMSK5 = (1 << OCIE5A) | (1 << OCIE5B) | (1 << TOV5);
+	TCCR5A |= 0xA0;
+	TCCR5B |= 0x11;
 	
-	PORTC |= L_FORWARD;
-	PORTC |= R_FORWARD; 
+	
+	//PORTC |= L_FORWARD;
+	//PORTC |= R_FORWARD; 
 	
 	// setup photoregister slit detection.
-	PORTJ &= ~((1 << PJ1) | (1 << PJ0));
+	//PORTJ &= ~((1 << PJ1) | (1 << PJ0));
+	//
+	//PCMSK1 |= PCINT14;
+	//PCMSK1 |= PCINT15;
 	
-	PCMSK1 |= PCINT14;
-	PCMSK1 |= PCINT15;
-	
-	PCICR |= PCIE1;
+	//PCICR |= PCIE1;
 	
 }
 
@@ -83,8 +97,3 @@ void setDutyCycle(float dutycycle, int wheel) {
 	}
 }
 
-int mps = 10;
-
-void adjustSpeed() {
-	
-}

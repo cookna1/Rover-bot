@@ -21,8 +21,8 @@
 
 #define L_FORWARD	 (1 << PC3)
 #define L_BACKWARD	 (1 << PC2)
-#define R_FORWARD	 (1 << PC1)
-#define R_BACKWARD	 (1 << PC0)
+#define R_BACKWARD	 (1 << PC1)
+#define R_FORWARD	 (1 << PC0)
 
 void initWheels();
 
