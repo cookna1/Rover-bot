@@ -26,23 +26,36 @@ int main(void)
 	_delay_ms(1000);
 	//changeDirection(FORWARD, L_WHEEL);
 	
-	//setDutyCycle(1, L_WHEEL);
-	//setDutyCycle(1, R_WHEEL);
+	setDutyCycle(.2, L_WHEEL);
+	setDutyCycle(.2, R_WHEEL);
 
 	//PORTL = 0x18;
 	//PORTC = 0;
 	//PORTC = L_FORWARD|R_FORWARD;
 	
+	float ds = 0.1;
+	int which = 0;
 	while (1)
 	{
-		//PORTL = 0x18;
-		int on = PINJ & (1<<PJ0);
-		if (on) {
-			PORTB |= 0x80;
-		}
-		else {
-			PORTB &= ~0x80;
-		}
+// 		if (which++ % 2) {
+// 			ds = (ds >= 0.5) ? 0.1 : (ds + 0.05);
+// 			_delay_ms(2000);
+// 			setDutyCycle(ds, L_WHEEL);
+// 			setDutyCycle(ds, R_WHEEL);
+// 		} else {
+// 			ds = (ds >= .05) ? 0.1 : (ds + 0.05);
+// 			_delay_ms(2000);
+// 			setDutyCycle(ds, R_WHEEL);
+// 			setDutyCycle(ds, L_WHEEL);
+// 		}
+// 		int on = PINJ & (1<<PJ0);
+// 		if (on) {
+// 			PORTB |= 0x80;
+// 		}
+// 		else {
+// 			PORTB &= ~0x80;
+// 		}
+		
 	}
 }
 

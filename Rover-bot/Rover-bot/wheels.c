@@ -24,15 +24,12 @@ int r_time;
 int l_time;
 
 // pin 15 reads the right wheel, functions as the master 
-/*ISR(PCINT10) {
+ISR(PCINT1_vect) {
+	
+		PORTB |= 0x80;	
 	
 }
 
-// pin 14 reads the left wheel and is driven as a slave. 
-ISR(PCINT9) {
-		
-		
-}*/
 
 void initWheels() {
 	DDRC |= 0x0F; 
@@ -45,8 +42,8 @@ void initWheels() {
 
 	// set up left timer
 	ICR5 = period;
-	setDutyCycle(1, L_WHEEL);
-	setDutyCycle(1, R_WHEEL);
+	setDutyCycle(0, L_WHEEL);
+	setDutyCycle(0, R_WHEEL);
 
 	TCCR5A |= (1 <<COM5A1) | (1 << COM5B1);
 	TCCR5B |= (1 << WGM53) | (1 << CS51);
@@ -56,12 +53,12 @@ void initWheels() {
 	PORTC |= R_FORWARD; 
 	
 	// setup photoregister slit detection.
-	//PORTJ &= ~((1 << PJ1) | (1 << PJ0));
-	//
-	//PCMSK1 |= PCINT14;
-	//PCMSK1 |= PCINT15;
+	PORTJ &= ~((1 << PJ1) | (1 << PJ0));
 	
-	//PCICR |= PCIE1;
+	PCMSK1 |= (1 << PCINT9);
+	PCMSK1 |= (1 << PCINT10);
+	
+	PCICR |= (1<<PCIE1);
 	
 }
 
@@ -90,7 +87,7 @@ void setDutyCycle(float dutycycle, int wheel) {
 		if (wheel == L_WHEEL) OCR5A = 0;
 		else if (wheel == R_WHEEL) OCR5B = 0;
 	} else {
-		int ontime = ((int)(dutycycle * 400.0) + 500) ;
+		int ontime = ((int)(dutycycle * 400.0) + 400) ;
 		
 		if (wheel == L_WHEEL) OCR5A = ontime;
 		else if (wheel == R_WHEEL) OCR5B = ontime;
