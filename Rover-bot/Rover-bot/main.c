@@ -23,18 +23,19 @@ int main(void)
 	sei();
 
 /* Replace with your application code */
-	_delay_ms(100);
+	_delay_ms(1000);
 	//changeDirection(FORWARD, L_WHEEL);
 	
 	//setDutyCycle(1, L_WHEEL);
 	//setDutyCycle(1, R_WHEEL);
 
-	PORTL = 0x18;
-	PORTC = 0;
-	PORTC = L_FORWARD|R_FORWARD;
+	//PORTL = 0x18;
+	//PORTC = 0;
+	//PORTC = L_FORWARD|R_FORWARD;
+	
 	while (1)
 	{
-		PORTL = 0x18;
+		//PORTL = 0x18;
 		int on = PINJ & (1<<PJ0);
 		if (on) {
 			PORTB |= 0x80;

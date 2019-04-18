@@ -48,12 +48,12 @@ void initWheels() {
 	setDutyCycle(1, L_WHEEL);
 	setDutyCycle(1, R_WHEEL);
 
-	TCCR5A |= 0xA0;
-	TCCR5B |= 0x11;
+	TCCR5A |= (1 <<COM5A1) | (1 << COM5B1);
+	TCCR5B |= (1 << WGM53) | (1 << CS51);
 	
 	
-	//PORTC |= L_FORWARD;
-	//PORTC |= R_FORWARD; 
+	PORTC |= L_FORWARD;
+	PORTC |= R_FORWARD; 
 	
 	// setup photoregister slit detection.
 	//PORTJ &= ~((1 << PJ1) | (1 << PJ0));
