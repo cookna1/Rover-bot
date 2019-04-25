@@ -26,8 +26,11 @@ int l_time;
 // pin 15 reads the right wheel, functions as the master 
 ISR(PCINT1_vect) {
 	
-		PORTB |= 0x80;	
-	
+		PORTB ^= 0x80;	
+		// If master
+		//	update interval time
+		// else if slave
+		//	compare interval time to master and adjust duty cycle accordingly. 
 }
 
 
