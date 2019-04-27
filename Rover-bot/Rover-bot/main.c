@@ -29,7 +29,6 @@ int main(void)
 	Use Timer4 input capture mode to capture and time pulses for IR command.
 	PORTL bit 0 / IPC4 Digital Pin 35 for interrupt
 	*/
-	DDRB = 0x80;
 	
 	//Digital Data Register F : Setting Pins 0, 1, 2 for output (w)
 	DDRF |= (1<<DDF0)|(1<<DDF1)|(1<<DDF2);
@@ -42,11 +41,14 @@ int main(void)
 	//Timer 4 Control Register B
 	TCCR4B |= (1<<ICES4); // ICES4: Rising Edge Triggers Capture
 	PORTF |= 0x07;
+	
 	TCNT4 = 0;
 	ICR4 = 5;
+	
 	//Enable Interrupts
 	sei();
 	
+	DDRB = 0x80;
 	//DDRL |= (1<<DDL0); //Want to read from this
 	
     /* Replace with your application code */
