@@ -43,8 +43,8 @@ int main(void)
 	TCCR4A |= (1<<COM4A0)|(1<<COM4B0)|(1<<COM4C0); 
 	
 	//Timer 4 Control Register B
-	TCCR4B |= (1<<ICES4); // ICES4: Rising Edge Triggers Capture
-	
+	TCCR4B |= (1<<ICES4)|(1<<ICNC4); // ICES4: Rising Edge Triggers Capture
+	TIFR4 = (1<<ICF4);
 	TCNT4 = 0;
 	ICR4 = 5;
 	
@@ -58,7 +58,9 @@ int main(void)
     /* Replace with your application code */
     while (1) 
     {	
-		
+		while(!(TIFR4&(1<<ICF4)));
+		PORTF ^= 0x07;
+		_delay_ms(1000);
     }
 }
 
@@ -67,7 +69,9 @@ ISR(TIMER4_CAPT_vect) {
 	//test to see if making it inside
 	PORTF ^= 0x07;
 	PORTB |= 0x80;
-	
+	TCNT4 = 0;
+	TCCR4B &= ~(1<<ICES4); //Set up to capture the falling edge
+	/*
 	//check rising edge
 	if (RISING_EDGE) {
 		RISING_EDGE = 0;
@@ -80,4 +84,5 @@ ISR(TIMER4_CAPT_vect) {
 		TCCR4B |= (1<<ICES4); //Set up to capture the rising edge
 		tcnt = TCNT4; //read counter - maybe print it off?
 	}
+	*/
 }

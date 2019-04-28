@@ -3,31 +3,29 @@ Rover-bot.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  0000024c  2**0
+  0 .data         00000000  00800200  00800200  000001ee  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000001d8  00000000  00000000  00000074  2**1
+  1 .text         0000019a  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000005  00800200  00800200  0000024c  2**0
-                  ALLOC
-  3 .comment      00000030  00000000  00000000  0000024c  2**0
+  2 .comment      00000030  00000000  00000000  000001ee  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000027c  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000220  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000028  00000000  00000000  000002bc  2**0
+  4 .debug_aranges 00000028  00000000  00000000  00000260  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000caa  00000000  00000000  000002e4  2**0
+  5 .debug_info   00000d31  00000000  00000000  00000288  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000ba0  00000000  00000000  00000f8e  2**0
+  6 .debug_abbrev 00000c11  00000000  00000000  00000fb9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000316  00000000  00000000  00001b2e  2**0
+  7 .debug_line   00000378  00000000  00000000  00001bca  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000054  00000000  00000000  00001e44  2**2
+  8 .debug_frame  00000048  00000000  00000000  00001f44  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000055b  00000000  00000000  00001e98  2**0
+  9 .debug_str    000005a6  00000000  00000000  00001f8c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000063  00000000  00000000  000023f3  2**0
+ 10 .debug_loc    00000049  00000000  00000000  00002532  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000018  00000000  00000000  00002456  2**0
+ 11 .debug_ranges 00000018  00000000  00000000  0000257b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -115,7 +113,7 @@ Disassembly of section .text:
   9e:	00 00       	nop
   a0:	33 c0       	rjmp	.+102    	; 0x108 <__bad_interrupt>
   a2:	00 00       	nop
-  a4:	55 c0       	rjmp	.+170    	; 0x150 <__vector_41>
+  a4:	65 c0       	rjmp	.+202    	; 0x170 <__vector_41>
   a6:	00 00       	nop
   a8:	2f c0       	rjmp	.+94     	; 0x108 <__bad_interrupt>
   aa:	00 00       	nop
@@ -168,11 +166,11 @@ Disassembly of section .text:
   fc:	1d 92       	st	X+, r1
 
 000000fe <.do_clear_bss_start>:
-  fe:	a5 30       	cpi	r26, 0x05	; 5
+  fe:	a0 30       	cpi	r26, 0x00	; 0
  100:	b2 07       	cpc	r27, r18
  102:	e1 f7       	brne	.-8      	; 0xfc <.do_clear_bss_loop>
  104:	02 d0       	rcall	.+4      	; 0x10a <main>
- 106:	66 c0       	rjmp	.+204    	; 0x1d4 <_exit>
+ 106:	47 c0       	rjmp	.+142    	; 0x196 <_exit>
 
 00000108 <__bad_interrupt>:
  108:	7b cf       	rjmp	.-266    	; 0x0 <__vectors>
@@ -182,40 +180,42 @@ Disassembly of section .text:
 	PORTL bit 0 / IPC4 Digital Pin 35 for interrupt
 	*/
 	
+	//Digital Data Register B : Setting Pins 7 for output (w)
+	DDRB |= 0x80;
+ 10a:	27 9a       	sbi	0x04, 7	; 4
 	//Digital Data Register F : Setting Pins 0, 1, 2 for output (w)
 	DDRF |= (1<<DDF0)|(1<<DDF1)|(1<<DDF2);
- 10a:	80 b3       	in	r24, 0x10	; 16
- 10c:	87 60       	ori	r24, 0x07	; 7
- 10e:	80 bb       	out	0x10, r24	; 16
+ 10c:	80 b3       	in	r24, 0x10	; 16
+ 10e:	87 60       	ori	r24, 0x07	; 7
+ 110:	80 bb       	out	0x10, r24	; 16
 	
 	//Timer 4 Interrupt Mask Register
 	TIMSK4 |= (1<<ICIE4); // ICIE4: Timer/Counter, Input Capture Interrupt Enable
- 110:	e2 e7       	ldi	r30, 0x72	; 114
- 112:	f0 e0       	ldi	r31, 0x00	; 0
- 114:	80 81       	ld	r24, Z
- 116:	80 62       	ori	r24, 0x20	; 32
- 118:	80 83       	st	Z, r24
+ 112:	e2 e7       	ldi	r30, 0x72	; 114
+ 114:	f0 e0       	ldi	r31, 0x00	; 0
+ 116:	80 81       	ld	r24, Z
+ 118:	80 62       	ori	r24, 0x20	; 32
+ 11a:	80 83       	st	Z, r24
 	
 	//Timer 4 Control Register A
-	TCCR4A |= (1<<COM4A0)|(1<<COM4B0)|(1<<COM4C0);
- 11a:	e0 ea       	ldi	r30, 0xA0	; 160
- 11c:	f0 e0       	ldi	r31, 0x00	; 0
- 11e:	80 81       	ld	r24, Z
- 120:	84 65       	ori	r24, 0x54	; 84
- 122:	80 83       	st	Z, r24
+	//Table 17-3 Set to Toggle OC4A on compare match (Do we need?)
+	TCCR4A |= (1<<COM4A0)|(1<<COM4B0)|(1<<COM4C0); 
+ 11c:	e0 ea       	ldi	r30, 0xA0	; 160
+ 11e:	f0 e0       	ldi	r31, 0x00	; 0
+ 120:	80 81       	ld	r24, Z
+ 122:	84 65       	ori	r24, 0x54	; 84
+ 124:	80 83       	st	Z, r24
 	
 	//Timer 4 Control Register B
-	TCCR4B |= (1<<ICES4); // ICES4: Rising Edge Triggers Capture
- 124:	e1 ea       	ldi	r30, 0xA1	; 161
- 126:	f0 e0       	ldi	r31, 0x00	; 0
- 128:	80 81       	ld	r24, Z
- 12a:	80 64       	ori	r24, 0x40	; 64
- 12c:	80 83       	st	Z, r24
-	PORTF |= 0x07;
- 12e:	81 b3       	in	r24, 0x11	; 17
- 130:	87 60       	ori	r24, 0x07	; 7
- 132:	81 bb       	out	0x11, r24	; 17
-	
+	TCCR4B |= (1<<ICES4)|(1<<ICNC4); // ICES4: Rising Edge Triggers Capture
+ 126:	e1 ea       	ldi	r30, 0xA1	; 161
+ 128:	f0 e0       	ldi	r31, 0x00	; 0
+ 12a:	80 81       	ld	r24, Z
+ 12c:	80 6c       	ori	r24, 0xC0	; 192
+ 12e:	80 83       	st	Z, r24
+	TIFR4 = (1<<ICF4);
+ 130:	80 e2       	ldi	r24, 0x20	; 32
+ 132:	89 bb       	out	0x19, r24	; 25
 	TCNT4 = 0;
  134:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7000a5>
  138:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7000a4>
@@ -229,92 +229,86 @@ Disassembly of section .text:
 	sei();
  148:	78 94       	sei
 	
-	DDRB = 0x80;
- 14a:	80 e8       	ldi	r24, 0x80	; 128
- 14c:	84 b9       	out	0x04, r24	; 4
- 14e:	ff cf       	rjmp	.-2      	; 0x14e <main+0x44>
+	
+	//DDRL |= (1<<DDL0); //Want to read from this (Signal from IR Sensor)
+	
+	PORTF |= 0x07;
+ 14a:	81 b3       	in	r24, 0x11	; 17
+ 14c:	87 60       	ori	r24, 0x07	; 7
+ 14e:	81 bb       	out	0x11, r24	; 17
+    /* Replace with your application code */
+    while (1) 
+    {	
+		while(!(TIFR4&(1<<ICF4)));
+		PORTF ^= 0x07;
+ 150:	97 e0       	ldi	r25, 0x07	; 7
+	
+	PORTF |= 0x07;
+    /* Replace with your application code */
+    while (1) 
+    {	
+		while(!(TIFR4&(1<<ICF4)));
+ 152:	cd 9b       	sbis	0x19, 5	; 25
+ 154:	fe cf       	rjmp	.-4      	; 0x152 <main+0x48>
+		PORTF ^= 0x07;
+ 156:	81 b3       	in	r24, 0x11	; 17
+ 158:	89 27       	eor	r24, r25
+ 15a:	81 bb       	out	0x11, r24	; 17
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
 
-00000150 <__vector_41>:
-		
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 15c:	2f ef       	ldi	r18, 0xFF	; 255
+ 15e:	33 ed       	ldi	r19, 0xD3	; 211
+ 160:	80 e3       	ldi	r24, 0x30	; 48
+ 162:	21 50       	subi	r18, 0x01	; 1
+ 164:	30 40       	sbci	r19, 0x00	; 0
+ 166:	80 40       	sbci	r24, 0x00	; 0
+ 168:	e1 f7       	brne	.-8      	; 0x162 <main+0x58>
+ 16a:	00 c0       	rjmp	.+0      	; 0x16c <main+0x62>
+ 16c:	00 00       	nop
+ 16e:	f1 cf       	rjmp	.-30     	; 0x152 <main+0x48>
+
+00000170 <__vector_41>:
+		_delay_ms(1000);
     }
 }
 
 //Input Capture Mode
 ISR(TIMER4_CAPT_vect) {
- 150:	1f 92       	push	r1
- 152:	0f 92       	push	r0
- 154:	0f b6       	in	r0, 0x3f	; 63
- 156:	0f 92       	push	r0
- 158:	11 24       	eor	r1, r1
- 15a:	0b b6       	in	r0, 0x3b	; 59
- 15c:	0f 92       	push	r0
- 15e:	8f 93       	push	r24
- 160:	9f 93       	push	r25
- 162:	ef 93       	push	r30
- 164:	ff 93       	push	r31
+ 170:	1f 92       	push	r1
+ 172:	0f 92       	push	r0
+ 174:	0f b6       	in	r0, 0x3f	; 63
+ 176:	0f 92       	push	r0
+ 178:	11 24       	eor	r1, r1
+ 17a:	8f 93       	push	r24
+ 17c:	9f 93       	push	r25
 	//test to see if making it inside
 	PORTF ^= 0x07;
- 166:	91 b3       	in	r25, 0x11	; 17
- 168:	87 e0       	ldi	r24, 0x07	; 7
- 16a:	89 27       	eor	r24, r25
- 16c:	81 bb       	out	0x11, r24	; 17
+ 17e:	91 b3       	in	r25, 0x11	; 17
+ 180:	87 e0       	ldi	r24, 0x07	; 7
+ 182:	89 27       	eor	r24, r25
+ 184:	81 bb       	out	0x11, r24	; 17
 	PORTB |= 0x80;
- 16e:	2f 9a       	sbi	0x05, 7	; 5
-	
-	//check rising edge
-	if (RISING_EDGE) {
- 170:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <RISING_EDGE>
- 174:	90 91 03 02 	lds	r25, 0x0203	; 0x800203 <RISING_EDGE+0x1>
- 178:	89 2b       	or	r24, r25
- 17a:	71 f0       	breq	.+28     	; 0x198 <__vector_41+0x48>
-		RISING_EDGE = 0;
- 17c:	10 92 03 02 	sts	0x0203, r1	; 0x800203 <RISING_EDGE+0x1>
- 180:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <RISING_EDGE>
-		TCNT4 = 0; //clear counter
- 184:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7000a5>
- 188:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7000a4>
-		TCCR4B &= ~(1<<ICES4); //Set up to capture the falling edge
- 18c:	e1 ea       	ldi	r30, 0xA1	; 161
- 18e:	f0 e0       	ldi	r31, 0x00	; 0
- 190:	80 81       	ld	r24, Z
- 192:	8f 7b       	andi	r24, 0xBF	; 191
- 194:	80 83       	st	Z, r24
- 196:	13 c0       	rjmp	.+38     	; 0x1be <__vector_41+0x6e>
-	} 
-	//check falling edge
-	else {
+ 186:	2f 9a       	sbi	0x05, 7	; 5
 		RISING_EDGE = 1;
- 198:	81 e0       	ldi	r24, 0x01	; 1
- 19a:	90 e0       	ldi	r25, 0x00	; 0
- 19c:	90 93 03 02 	sts	0x0203, r25	; 0x800203 <RISING_EDGE+0x1>
- 1a0:	80 93 02 02 	sts	0x0202, r24	; 0x800202 <RISING_EDGE>
 		TCCR4B |= (1<<ICES4); //Set up to capture the rising edge
- 1a4:	e1 ea       	ldi	r30, 0xA1	; 161
- 1a6:	f0 e0       	ldi	r31, 0x00	; 0
- 1a8:	80 81       	ld	r24, Z
- 1aa:	80 64       	ori	r24, 0x40	; 64
- 1ac:	80 83       	st	Z, r24
 		tcnt = TCNT4; //read counter - maybe print it off?
- 1ae:	80 91 a4 00 	lds	r24, 0x00A4	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7000a4>
- 1b2:	90 91 a5 00 	lds	r25, 0x00A5	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7000a5>
- 1b6:	90 93 01 02 	sts	0x0201, r25	; 0x800201 <_edata+0x1>
- 1ba:	80 93 00 02 	sts	0x0200, r24	; 0x800200 <_edata>
 	}
+	*/
 }
- 1be:	ff 91       	pop	r31
- 1c0:	ef 91       	pop	r30
- 1c2:	9f 91       	pop	r25
- 1c4:	8f 91       	pop	r24
- 1c6:	0f 90       	pop	r0
- 1c8:	0b be       	out	0x3b, r0	; 59
- 1ca:	0f 90       	pop	r0
- 1cc:	0f be       	out	0x3f, r0	; 63
- 1ce:	0f 90       	pop	r0
- 1d0:	1f 90       	pop	r1
- 1d2:	18 95       	reti
+ 188:	9f 91       	pop	r25
+ 18a:	8f 91       	pop	r24
+ 18c:	0f 90       	pop	r0
+ 18e:	0f be       	out	0x3f, r0	; 63
+ 190:	0f 90       	pop	r0
+ 192:	1f 90       	pop	r1
+ 194:	18 95       	reti
 
-000001d4 <_exit>:
- 1d4:	f8 94       	cli
+00000196 <_exit>:
+ 196:	f8 94       	cli
 
-000001d6 <__stop_program>:
- 1d6:	ff cf       	rjmp	.-2      	; 0x1d6 <__stop_program>
+00000198 <__stop_program>:
+ 198:	ff cf       	rjmp	.-2      	; 0x198 <__stop_program>
