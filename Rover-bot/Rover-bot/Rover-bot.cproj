@@ -136,6 +136,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PSerial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PSerial.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="wheels.c">
       <SubType>compile</SubType>
     </Compile>

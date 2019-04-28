@@ -12,11 +12,18 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "wheels.h"
+#include "PSerial.h"
+
+void init() {
+	PSerial_open(0, BAUD9600, SERIAL_8N1);
+	initWheels();
+}
 
 
 int main(void)
 {
 //PORTB |= 0x80;
+	PSerial_open(0, BAUD9600, SERIAL_8N1);
 	initWheels();
 	DDRB = 0x80;
 	PORTJ &= ~(1 << PJ1);
@@ -26,15 +33,15 @@ int main(void)
 	_delay_ms(1000);
 	//changeDirection(FORWARD, L_WHEEL);
 	
-	setDutyCycle(.2, L_WHEEL);
-	setDutyCycle(.2, R_WHEEL);
+	setDutyCycle(.6, L_WHEEL);
+	setDutyCycle(.6, R_WHEEL);
 
 	//PORTL = 0x18;
 	//PORTC = 0;
 	//PORTC = L_FORWARD|R_FORWARD;
 	
-	float ds = 0.1;
-	int which = 0;
+
+	
 	while (1)
 	{
 // 		if (which++ % 2) {

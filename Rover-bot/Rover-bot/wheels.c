@@ -9,6 +9,9 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "wheels.h"
+#include "PSerial.h"
+
+uint64_t timer;
 
 int L_DIRECTION;
 int R_DIRECTION;
@@ -16,30 +19,58 @@ int R_DIRECTION;
 volatile int l_setting;
 volatile int r_setting;
 
+int l_ds = 0; // ONTIME
+int r_ds = 0;
+
 int offtime = 10;
 
 // right wheel is master 
 // left wheel is slave
-int r_time;
-int l_time;
+int lastPJ = 0;
+int32_t leftCount = 0;
+int32_t rightcount = 0;
+int RwasOn;
+int LwasOn;
 
 // pin 15 reads the right wheel, functions as the master 
 ISR(PCINT1_vect) {
-	
+		PSprintf(0, "%d\n\r", leftCount);
 		PORTB ^= 0x80;	
+		
+		int RisON = (PINJ | (1<<PJ1));
+		int LisON = (PINJ | (1<<PJ0));
+		
 		// If master
-		//	update interval time
+		if(!RwasOn && RisON) {
+			//	update interval time
+			rightcount++;
 		// else if slave
-		//	compare interval time to master and adjust duty cycle accordingly. 
+		} 
+		if(!LwasOn && LisON) {
+			//	compare interval time to master and adjust duty cycle accordingly. 
+			leftCount++;
+			PSprintf(0, "Left entered\n\r");
+			double ratio = leftCount / rightcount;
+			if (leftCount < rightcount) {
+				l_ds += 0.1;
+				setDutyCycle(l_ds, L_WHEEL);
+			} else if (leftCount > rightcount) {
+				l_ds -= 0.1;
+				setDutyCycle(l_ds, L_WHEEL);
+			} else {
+				
+			}
+			
+		}
+		RwasOn = RisON;
+		LwasOn = LisON;
 }
-
 
 void initWheels() {
 	DDRC |= 0x0F; 
 	DDRL |= 0x18;
 	
-	int l_ontime = 0; // ONTIME
-	int r_ontime = 0;
+	timer = 0;
 
 	int period = 1000; //total time
 
