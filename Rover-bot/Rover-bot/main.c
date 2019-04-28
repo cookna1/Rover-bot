@@ -30,6 +30,8 @@ int main(void)
 	PORTL bit 0 / IPC4 Digital Pin 35 for interrupt
 	*/
 	
+	//Digital Data Register B : Setting Pins 7 for output (w)
+	DDRB |= 0x80;
 	//Digital Data Register F : Setting Pins 0, 1, 2 for output (w)
 	DDRF |= (1<<DDF0)|(1<<DDF1)|(1<<DDF2);
 	
@@ -37,10 +39,11 @@ int main(void)
 	TIMSK4 |= (1<<ICIE4); // ICIE4: Timer/Counter, Input Capture Interrupt Enable
 	
 	//Timer 4 Control Register A
-	TCCR4A |= (1<<COM4A0)|(1<<COM4B0)|(1<<COM4C0)|
+	//Table 17-3 Set to Toggle OC4A on compare match (Do we need?)
+	TCCR4A |= (1<<COM4A0)|(1<<COM4B0)|(1<<COM4C0); 
+	
 	//Timer 4 Control Register B
 	TCCR4B |= (1<<ICES4); // ICES4: Rising Edge Triggers Capture
-	PORTF |= 0x07;
 	
 	TCNT4 = 0;
 	ICR4 = 5;
@@ -48,9 +51,10 @@ int main(void)
 	//Enable Interrupts
 	sei();
 	
-	DDRB = 0x80;
-	//DDRL |= (1<<DDL0); //Want to read from this
 	
+	//DDRL |= (1<<DDL0); //Want to read from this (Signal from IR Sensor)
+	
+	PORTF |= 0x07;
     /* Replace with your application code */
     while (1) 
     {	
