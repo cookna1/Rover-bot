@@ -31,22 +31,36 @@ int32_t leftCount = 0;
 int32_t rightcount = 0;
 int RwasOn;
 int LwasOn;
+int oldJ = 0;
 
 // pin 15 reads the right wheel, functions as the master 
 ISR(PCINT1_vect) {
+	//cli();
 		//PSprintf(0, "%d\n\r", leftCount);
-		//PORTB ^= 0x80;	
+		//PORTB ^= 0x80;
+		//PORTF ^= (1 << PF2);	
+		
+		int J = PINJ;
+		
+		int change = J ^ oldJ;
+		
+		PORTF = change;
 		
 		int RisON = (PINJ | (1<<PJ1));
 		int LisON = (PINJ | (1<<PJ0));
 		
 		// If master
-		if(!RwasOn && RisON) {
+		if(change | (1 << PJ1)) {
+			PORTF ^= (1 << PF0);
+
 			//	update interval time
 			rightcount++;
 		// else if slave
 		} 
-		if(!LwasOn && LisON) {
+		if(change | (1 << PJ0)) {
+			PORTF ^= (1 << PF1);
+
+
 			//	compare interval time to master and adjust duty cycle accordingly. 
 			leftCount++;
 			//PSprintf(0, "Left entered\n\r");
@@ -62,8 +76,11 @@ ISR(PCINT1_vect) {
 			}
 			
 		}
+				
 		RwasOn = RisON;
 		LwasOn = LisON;
+		oldJ = J;
+		//sei();
 }
 
 void initWheels() {

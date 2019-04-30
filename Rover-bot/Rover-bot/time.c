@@ -32,7 +32,7 @@ void setTime() {
 	OCR2A = tickTime;
 }
 
-ISR(TIMER2_COMPA_vect, ISR_NAKED) {
+ISR(TIMER2_COMPA_vect) {
 	timeCounter++;
-	/*if (timeCounter % 1000 == 0)*/ PORTB ^= 0x80;
+	/*if (timeCounter % 1000 == 0)*/ //PORTB ^= 0x80;
 }

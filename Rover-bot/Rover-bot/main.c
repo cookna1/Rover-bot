@@ -27,6 +27,7 @@ int main(void)
 //PORTB |= 0x80;
 	PSerial_open(0, BAUD9600, SERIAL_8N1);
 	DDRB = 0x80;
+	DDRF |= (1<<DDF0)|(1<<DDF1)|(DDF2);
 	init();
 	PORTJ &= ~(1 << PJ1);
 	sei();
