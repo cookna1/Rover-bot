@@ -11,10 +11,12 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include "time.h"
 #include "wheels.h"
 #include "PSerial.h"
 
 void init() {
+	setTime();
 	PSerial_open(0, BAUD9600, SERIAL_8N1);
 	initWheels();
 }
@@ -24,8 +26,8 @@ int main(void)
 {
 //PORTB |= 0x80;
 	PSerial_open(0, BAUD9600, SERIAL_8N1);
-	initWheels();
 	DDRB = 0x80;
+	init();
 	PORTJ &= ~(1 << PJ1);
 	sei();
 
@@ -44,6 +46,9 @@ int main(void)
 	
 	while (1)
 	{
+		unsigned long t = getTime();
+		//PSprintf(0, "Time: %X\n\r", t);
+		_delay_ms(100);
 // 		if (which++ % 2) {
 // 			ds = (ds >= 0.5) ? 0.1 : (ds + 0.05);
 // 			_delay_ms(2000);

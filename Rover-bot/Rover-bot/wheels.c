@@ -34,8 +34,8 @@ int LwasOn;
 
 // pin 15 reads the right wheel, functions as the master 
 ISR(PCINT1_vect) {
-		PSprintf(0, "%d\n\r", leftCount);
-		PORTB ^= 0x80;	
+		//PSprintf(0, "%d\n\r", leftCount);
+		//PORTB ^= 0x80;	
 		
 		int RisON = (PINJ | (1<<PJ1));
 		int LisON = (PINJ | (1<<PJ0));
@@ -49,7 +49,7 @@ ISR(PCINT1_vect) {
 		if(!LwasOn && LisON) {
 			//	compare interval time to master and adjust duty cycle accordingly. 
 			leftCount++;
-			PSprintf(0, "Left entered\n\r");
+			//PSprintf(0, "Left entered\n\r");
 			double ratio = leftCount / rightcount;
 			if (leftCount < rightcount) {
 				l_ds += 0.1;
