@@ -40,13 +40,13 @@ int main(void)
 	
 	//Timer 4 Control Register A
 	//Table 17-3 Set to Toggle OC4A on compare match (Do we need?)
-	TCCR4A |= (1<<COM4A0)|(1<<COM4B0)|(1<<COM4C0); 
+	//TCCR4A |= (1<<COM4A0)|(1<<COM4B0)|(1<<COM4C0); 
 	
 	//Timer 4 Control Register B
 	TCCR4B |= (1<<ICES4)|(1<<ICNC4); // ICES4: Rising Edge Triggers Capture
-	TIFR4 = (1<<ICF4);
-	TCNT4 = 0;
-	ICR4 = 5;
+	//TIFR4 = (1<<ICF4);
+	//TCNT4 = 0;
+	//ICR4 = 5;
 	
 	//Enable Interrupts
 	sei();
@@ -58,7 +58,9 @@ int main(void)
     /* Replace with your application code */
     while (1) 
     {	
-		while(!(TIFR4&(1<<ICF4)));
+		//while(!(TIFR4&(1<<ICF4)));
+		while(!((PORTL >> PL0) & 0x01));
+		PORTL |= (1<<PL0);
 		PORTF ^= 0x07;
 		_delay_ms(1000);
     }
@@ -67,7 +69,7 @@ int main(void)
 //Input Capture Mode
 ISR(TIMER4_CAPT_vect) {
 	//test to see if making it inside
-	PORTF ^= 0x07;
+	PORTF &= ~(0x07);
 	PORTB |= 0x80;
 	TCNT4 = 0;
 	TCCR4B &= ~(1<<ICES4); //Set up to capture the falling edge
