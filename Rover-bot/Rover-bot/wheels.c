@@ -33,55 +33,46 @@ volatile unsigned int RwasOn;
 int LwasOn;
 int oldJ = 0;
 
-// pin 15 reads the right wheel, functions as the master 
-ISR(PCINT1_vect) {
-	//cli();
-		//PSprintf(0, "%d\n\r", leftCount);
-		//PORTB ^= 0x80;
-		//PORTF ^= (1 << PF2);	
-		
-		int J = PINJ;
-		
-		int change = J ^ oldJ;
-		
-		PORTF = change;
-		
-		int RisON = (PINJ | (1<<PJ1));
-		int LisON = (PINJ | (1<<PJ0));
-		
-		// If master
-		if(change | (1 << PJ1)) {
-			PORTF ^= (1 << PF0);
-
-			//	update interval time
-			rightcount = rightcount + 1;
-		// else if slave
-		} 
-		if(change | (1 << PJ0)) {
-			PORTF ^= (1 << PF1);
-
-
-			//	compare interval time to master and adjust duty cycle accordingly. 
-			leftCount = leftCount + 1;
-		}
-				
-		RwasOn = RisON;
-		LwasOn = LisON;
-		oldJ = J;
-		//sei();
-}
-
 void go1foot() {
 	leftCount = 0;
 	rightcount = 0;
-	setDutyCycle(0.7, L_WHEEL);
-	setDutyCycle(0.7, R_WHEEL);
+	straight(0.7);
 	float inches = 0;
 	while(leftCount < 150) {
 		 PORTF ^= (1<<PF2);
 	}
-	setDutyCycle(0.0, L_WHEEL);
-	setDutyCycle(0.0, R_WHEEL);
+	straight(0);
+}
+
+void straight(float ds) {
+	cli();
+	setDutyCycle(ds, L_WHEEL);
+	setDutyCycle(ds, R_WHEEL);
+	sei();
+}
+
+void setTurn() {
+	
+	changeDirection(FORWARD, L_WHEEL);
+	changeDirection(BACKWARD, R_WHEEL);
+	setDutyCycle(0.7, L_WHEEL);
+	setDutyCycle(0.7, R_WHEEL);
+}
+
+void turn(int d) {
+	cli();
+	setTurn();
+	leftCount = 0;
+	rightcount = 0;
+	sei();
+	
+	int count = (d * 50) / 90;
+
+	while(leftCount < count) {
+		 PORTF ^= (1<<PF2);
+	}
+	straight(0);
+	
 }
 
 void initWheels() {
@@ -142,7 +133,46 @@ void setDutyCycle(float dutycycle, int wheel) {
 		int ontime = ((int)(dutycycle * 400.0) + 400) ;
 		
 		if (wheel == L_WHEEL) OCR5A = ontime ;
-		else if (wheel == R_WHEEL) OCR5B = ontime;
+		else if (wheel == R_WHEEL) OCR5B = ontime + 25;
 	}
+}
+
+
+// pin 15 reads the right wheel, functions as the master
+ISR(PCINT1_vect) {
+	//cli();
+	//PSprintf(0, "%d\n\r", leftCount);
+	//PORTB ^= 0x80;
+	//PORTF ^= (1 << PF2);
+	
+	int J = PINJ;
+	
+	int change = J ^ oldJ;
+	
+	PORTF = change;
+	
+	int RisON = (PINJ | (1<<PJ1));
+	int LisON = (PINJ | (1<<PJ0));
+	
+	// If master
+	if(change | (1 << PJ1)) {
+		PORTF ^= (1 << PF0);
+
+		//	update interval time
+		rightcount = rightcount + 1;
+		// else if slave
+	}
+	if(change | (1 << PJ0)) {
+		PORTF ^= (1 << PF1);
+
+
+		//	compare interval time to master and adjust duty cycle accordingly.
+		leftCount = leftCount + 1;
+	}
+	
+	RwasOn = RisON;
+	LwasOn = LisON;
+	oldJ = J;
+	//sei();
 }
 

@@ -25,6 +25,8 @@
 #define R_BACKWARD	 (1 << PC1)
 
 void initWheels();
+void straight(float ds);
+void turn(int d);
 
 void go1foot();
 

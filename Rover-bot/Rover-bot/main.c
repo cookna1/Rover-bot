@@ -50,7 +50,7 @@ int main(void)
 		//unsigned long t = getTime();
 		//PSprintf(0, "Time: %X\n\r", t);
 		_delay_ms(3000);
-		go1foot();
+		turn(90);
 		PORTF |= (1<<PF2);
 // 		if (which++ % 2) {
 // 			ds = (ds >= 0.5) ? 0.1 : (ds + 0.05);
