@@ -13,8 +13,8 @@
 #ifndef INCFILE1_H_
 #define INCFILE1_H_
 
-#define R_WHEEL 0
-#define L_WHEEL 1
+#define R_WHEEL 1
+#define L_WHEEL 0
 
 #define FORWARD 0
 #define BACKWARD 1
@@ -25,6 +25,8 @@
 #define R_BACKWARD	 (1 << PC1)
 
 void initWheels();
+
+void go1foot();
 
 void changeDirection(int direction, int wheelNumber);
 

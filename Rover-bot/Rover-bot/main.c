@@ -16,7 +16,7 @@
 #include "PSerial.h"
 
 void init() {
-	setTime();
+	//setTime();
 	PSerial_open(0, BAUD9600, SERIAL_8N1);
 	initWheels();
 }
@@ -36,8 +36,8 @@ int main(void)
 	_delay_ms(1000);
 	//changeDirection(FORWARD, L_WHEEL);
 	
-	setDutyCycle(.6, L_WHEEL);
-	setDutyCycle(.6, R_WHEEL);
+	setDutyCycle(0, L_WHEEL);
+	setDutyCycle(0, R_WHEEL);
 
 	//PORTL = 0x18;
 	//PORTC = 0;
@@ -47,9 +47,11 @@ int main(void)
 	
 	while (1)
 	{
-		unsigned long t = getTime();
+		//unsigned long t = getTime();
 		//PSprintf(0, "Time: %X\n\r", t);
-		_delay_ms(100);
+		_delay_ms(3000);
+		go1foot();
+		PORTF |= (1<<PF2);
 // 		if (which++ % 2) {
 // 			ds = (ds >= 0.5) ? 0.1 : (ds + 0.05);
 // 			_delay_ms(2000);

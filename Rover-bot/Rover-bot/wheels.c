@@ -27,9 +27,9 @@ int offtime = 10;
 // right wheel is master 
 // left wheel is slave
 int lastPJ = 0;
-int32_t leftCount = 0;
-int32_t rightcount = 0;
-int RwasOn;
+int leftCount = 0;
+volatile unsigned int rightcount = 0;
+volatile unsigned int RwasOn;
 int LwasOn;
 int oldJ = 0;
 
@@ -54,7 +54,7 @@ ISR(PCINT1_vect) {
 			PORTF ^= (1 << PF0);
 
 			//	update interval time
-			rightcount++;
+			rightcount = rightcount + 1;
 		// else if slave
 		} 
 		if(change | (1 << PJ0)) {
@@ -62,25 +62,26 @@ ISR(PCINT1_vect) {
 
 
 			//	compare interval time to master and adjust duty cycle accordingly. 
-			leftCount++;
-			//PSprintf(0, "Left entered\n\r");
-			double ratio = leftCount / rightcount;
-			if (leftCount < rightcount) {
-				l_ds += 0.1;
-				setDutyCycle(l_ds, L_WHEEL);
-			} else if (leftCount > rightcount) {
-				l_ds -= 0.1;
-				setDutyCycle(l_ds, L_WHEEL);
-			} else {
-				
-			}
-			
+			leftCount = leftCount + 1;
 		}
 				
 		RwasOn = RisON;
 		LwasOn = LisON;
 		oldJ = J;
 		//sei();
+}
+
+void go1foot() {
+	leftCount = 0;
+	rightcount = 0;
+	setDutyCycle(0.7, L_WHEEL);
+	setDutyCycle(0.7, R_WHEEL);
+	float inches = 0;
+	while(leftCount < 150) {
+		 PORTF ^= (1<<PF2);
+	}
+	setDutyCycle(0.0, L_WHEEL);
+	setDutyCycle(0.0, R_WHEEL);
 }
 
 void initWheels() {
@@ -140,7 +141,7 @@ void setDutyCycle(float dutycycle, int wheel) {
 	} else {
 		int ontime = ((int)(dutycycle * 400.0) + 400) ;
 		
-		if (wheel == L_WHEEL) OCR5A = ontime;
+		if (wheel == L_WHEEL) OCR5A = ontime ;
 		else if (wheel == R_WHEEL) OCR5B = ontime;
 	}
 }
