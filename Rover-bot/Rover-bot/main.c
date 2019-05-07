@@ -64,9 +64,6 @@ int main(void)
 	//Set Initial Timer Value
 	TCNT4 = 0;
 	
-    // Sets the ISR up to first handle rising edges
-	RISING_EDGE = 1; 
-	
 	//Enable Interrupts
 	sei();
 	
