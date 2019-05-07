@@ -18,6 +18,7 @@
 #define LOW_START (HIGH_START/2) //or whatever the 4.5ms low time count is
 #define LOGICAL_ONE (LOW_START/2)
 #define LOGICAL_ZERO (LOGICAL_ONE/2)
+#define RISING_EDGE ((TCCR4B >> ICES4) & 0x01)
 
 void displayCount(int count);
 
@@ -25,11 +26,11 @@ void displayCount(int count);
 volatile unsigned int tcnt;
 volatile unsigned char sreg;
 volatile unsigned int th, tl;
-volatile int RISING_EDGE;
 
+int cycle;
 
 unsigned int timeset;
-
+unsigned int previousPeriod, previousPulseWidth, startTime, stopTime;
 /*
 	Code for the IR Remote Controller
 */
@@ -55,7 +56,10 @@ int main(void)
 	  ICES4: Rising Edge Triggers Capture
 	  CS10: No Prescaler (Timer Clock = System Clock)
 	*/
-	TCCR4B = (1<<ICES4)|(CS10); 
+	TCCR4B = (1<<ICES4)|(CS10);
+	
+	//Clear input capture flag
+	TIFR4 = (1<<ICF1);
 	
 	//Set Initial Timer Value
 	TCNT4 = 0;
@@ -91,22 +95,20 @@ int main(void)
 
 //Input Capture Mode
 ISR(TIMER4_CAPT_vect) {
-	PORTF ^= 0x07;
+
 	//check rising edge
 	if (RISING_EDGE) {
-		RISING_EDGE = 0;
-		timeset = ICR4;
+		previousPeriod = ICR4 - startTime;
+		previousPulseWidth = stopTime - startTime;
+		startTime = ICR4;
 		TCCR4B &= ~(1<<ICES4); //Set up to capture the falling edge
 		TCNT4 = 0;
 	} 
 	//check falling edge
 	else {
-		RISING_EDGE = 1;
+		stopTime = ICR4;
 		TCCR4B |= (1<<ICES4); //Set up to capture the rising edge
-		timeset = ICR4 - timeset;
 		TIMSK4 &= ~(1<<ICIE4); //Disable interrupt to allow for count display
-		th = TCNT4H - th;
-		tl = TCNT4H - tl;
 	}
 }
 
