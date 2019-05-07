@@ -11,9 +11,11 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <stdbool.h>
 #include "rover.h"
 #include "wheels.h"
 //#include "PSerial.h"
+#include "IRRemote.h"
 #include "IRdetector.h"
 #include "USsensor.h"
 #include "acx.h"
@@ -33,7 +35,7 @@ void init() {
 	//setTime();
 	//PSerial_open(0, BAUD9600, SERIAL_8N1);
 	mode = STRAIGHT;
-
+	initIRRemote();
 	initIRDet();
 	initWheels();
 	initUS();
@@ -49,6 +51,7 @@ int main(void)
 	x_init();
 	x_delay(1000);
 	
+x_new(4, IRRcontrol, 1);
 
 	x_new(2, wheelControl, 1);
 	x_new(1, irControl, 1);
