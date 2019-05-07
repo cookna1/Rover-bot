@@ -13,6 +13,8 @@
 #ifndef INCFILE1_H_
 #define INCFILE1_H_
 
+#define bool unsigned short
+
 #define R_WHEEL 1
 #define L_WHEEL 0
 

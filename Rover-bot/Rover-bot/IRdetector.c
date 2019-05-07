@@ -9,6 +9,8 @@
 #include <avr/interrupt.h>
 #include "IRdetector.h"
 #include "wheels.h"
+#include "acx.h"
+#include "acxserial.h"
 
 void initIRDet() {
 	DDRK &= ~0x03;
@@ -17,6 +19,10 @@ void initIRDet() {
 	DDRF = 0x03;
 	PCMSK2 = (1 << PCINT16) | (1 << PCINT17);
 
+}
+
+void irControl() {
+	
 }
 
 void disableIRDet() {

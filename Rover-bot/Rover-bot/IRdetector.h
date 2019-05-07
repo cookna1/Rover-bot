@@ -1,1 +1,2 @@
 void initIRDet();
+void irControl();

@@ -9,7 +9,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "wheels.h"
-#include "PSerial.h"
+#include "acx.h"
+#include "acxserial.h"
 
 uint64_t timer;
 
@@ -146,7 +147,7 @@ void changeDirection(int direction, int wheelNumber) {
 
 // setDutyCycle accepts a dutycycle (number between 0.0 and 1.0) and the wheel (L_WHEEL or R_WHEEL)
 void setDutyCycle(float dutycycle, int wheel) {
-	
+	cli();
 	if (dutycycle == 0) {
 		if (wheel == L_WHEEL) OCR5A = 0;
 		else if (wheel == R_WHEEL) OCR5B = 0;
@@ -156,6 +157,8 @@ void setDutyCycle(float dutycycle, int wheel) {
 		if (wheel == L_WHEEL) OCR5A = ontime ;
 		else if (wheel == R_WHEEL) OCR5B = ontime + 25;
 	}
+	TCNT5 = 0;
+	sei();
 }
 
 
