@@ -5,16 +5,10 @@
  *  Author: mcgalliarder
  */ 
 
-
-//Input Capture Mode
-ISR(TIMER4_CAPT_vect) {
-	
-	TIMSK4 &= ~(1<<ICIE4); //Disable interrupt
-	PORTF ^= 0x07;
-	_delay_ms(5000);
-	TIFR4 = ~(1<<ICF4);
-	TIMSK4 = (1<<ICIE4); //Enable interrupt 
-}
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <stdbool.h>
+#include <util/delay.h>
 
 
 void initIRRemote() {
@@ -36,12 +30,24 @@ void initIRRemote() {
 	TCNT4 = 0;
 }
 
+//Input Capture Mode
+ISR(TIMER4_CAPT_vect) {
+	
+	TIMSK4 &= ~(1<<ICIE4); //Disable interrupt
+
+	//Put what you want here
+
+	_delay_ms(5000);
+	TIFR4 = ~(1<<ICF4);
+	TIMSK4 = (1<<ICIE4); //Enable interrupt
+}
 
 /*
 * Used for displaying count on Port 7 - Testing purposes
 */
 void displayCount(int count) {
 	PORTF = 0x00;
+	int timeset = count;
 	count = timeset / 100;
 	for(int i = 0; i < count; i+=1) {
 		PORTF = 0x04;

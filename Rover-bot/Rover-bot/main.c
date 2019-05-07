@@ -12,13 +12,9 @@
 #include <avr/interrupt.h>
 #include <stdbool.h>
 #include <util/delay.h>
-#include "time.h"
+#include "IRRemote.h"
 
-#define HIGH_START 100 //or whatever the 9ms high time count is
-#define LOW_START (HIGH_START/2) //or whatever the 4.5ms low time count is
-#define LOGICAL_ONE (LOW_START/2)
-#define LOGICAL_ZERO (LOGICAL_ONE/2)
-#define RISING_EDGE ((TCCR4B >> ICES4) & 0x01)
+
 
 void initIRRemote();
 void displayCount(int count);
@@ -57,7 +53,7 @@ int main(void)
 	timeset = 1;
     
 	initIRRemote();
-	//
+	
 	PORTF = 0x07;
     while (1) 
     {
@@ -77,78 +73,4 @@ int main(void)
 			}	
 		}*/
     } 
-}
-
-//Input Capture Mode
-ISR(TIMER4_CAPT_vect) {
-	TIMSK4 &= ~(1<<ICIE4); //Disable interrupt to allow for count display
-	PORTF ^= 0x07;
-	//ON = 1;
-	//check rising edge
-/*
-	if (RISING_EDGE) {
-		previousPeriod = ICR4 - startTime;
-		previousPulseWidth = stopTime - startTime;
-		startTime = ICR4;
-		TCCR4B &= ~(1<<ICES4); //Set up to capture the falling edge
-		TCNT4 = 0;
-		timeset += 1 % 2;
-	} 
-	//check falling edge
-	else {
-		stopTime = ICR4;
-		TCCR4B |= (1<<ICES4); //Set up to capture the rising edge
-	}
-*/
-	_delay_ms(5000);
-	TIFR4 = ~(1<<ICF4);
-	TIMSK4 = (1<<ICIE4);
-}
-
-/*
-* Used for displaying count on Port 7 - Testing purposes
-*/
-void displayCount(int count) {
-	PORTF = 0x00;
-	count = timeset / 100;
-	for(int i = 0; i < count; i+=1) {
-		PORTF = 0x04;
-		_delay_ms(200);
-		PORTF = 0x00;
-		_delay_ms(200);
-	}
-	count = (timeset - (count * 100)) / 10;
-	for(int i = 0; i < count; i++) {
-		PORTF = 0x02;
-		_delay_ms(200);
-		PORTF = 0x00;
-		_delay_ms(200);
-	}
-	count = timeset % 10;
-	PORTF = 0x00;
-	for(int i = 0; i < count; i++) {
-		PORTF = 0x01;
-		_delay_ms(200);
-		PORTF = 0x00;
-		_delay_ms(200);
-	}
-}
-
-void initIRRemote() {
-	/*Timer 4 Interrupt Mask Register
-	  ICIE4: Timer/Counter, Input Capture Interrupt Enable
-	*/
-	TIMSK4 = (1<<ICIE4); // 
-	
-	/*Timer 4 Control Register B
-	  ICES4: Rising Edge Triggers Capture
-	  CS10: No Prescaler (Timer Clock = System Clock)
-	*/
-	TCCR4B = (1<<ICES4)|(CS10);
-	
-	//Clear input capture flag
-	TIFR4 = (1<<ICF1);
-	
-	//Set Initial Timer Value
-	TCNT4 = 0;
 }
