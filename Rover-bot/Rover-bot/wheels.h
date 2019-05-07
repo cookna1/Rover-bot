@@ -27,6 +27,7 @@
 void initWheels();
 void straight(float ds);
 void turn(int d);
+void stop() ;
 
 void go1foot();
 

@@ -51,7 +51,13 @@ void straight(float ds) {
 	sei();
 }
 
-void setTurn() {
+void stop() {
+	changeDirection(FORWARD, L_WHEEL);
+	changeDirection(FORWARD, R_WHEEL);
+	straight(0);
+}
+
+void setTurnLeft() {
 	
 	changeDirection(FORWARD, L_WHEEL);
 	changeDirection(BACKWARD, R_WHEEL);
@@ -59,11 +65,26 @@ void setTurn() {
 	setDutyCycle(0.7, R_WHEEL);
 }
 
+
+void setTurnRight() {
+	
+	changeDirection(BACKWARD, L_WHEEL);
+	changeDirection(FORWARD, R_WHEEL);
+	setDutyCycle(0.7, L_WHEEL);
+	setDutyCycle(0.7, R_WHEEL);
+}
+
 void turn(int d) {
+	stop();
+	//_delay_ms(100);
 	cli();
-	setTurn();
+	
+	if (d > 0) setTurnLeft();
+	else setTurnRight();
+	
 	leftCount = 0;
 	rightcount = 0;
+	
 	sei();
 	
 	int count = (d * 50) / 90;
@@ -71,7 +92,7 @@ void turn(int d) {
 	while(leftCount < count) {
 		 PORTF ^= (1<<PF2);
 	}
-	straight(0);
+	stop();
 	
 }
 
@@ -156,16 +177,11 @@ ISR(PCINT1_vect) {
 	
 	// If master
 	if(change | (1 << PJ1)) {
-		PORTF ^= (1 << PF0);
-
 		//	update interval time
 		rightcount = rightcount + 1;
 		// else if slave
 	}
 	if(change | (1 << PJ0)) {
-		PORTF ^= (1 << PF1);
-
-
 		//	compare interval time to master and adjust duty cycle accordingly.
 		leftCount = leftCount + 1;
 	}

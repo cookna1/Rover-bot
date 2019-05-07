@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-PSerial.c
+IRdetector.c
 
 time.c
 

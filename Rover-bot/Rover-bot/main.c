@@ -13,11 +13,13 @@
 #include <avr/interrupt.h>
 #include "time.h"
 #include "wheels.h"
-#include "PSerial.h"
+//#include "PSerial.h"
+#include "IRdetector.h"
 
 void init() {
 	//setTime();
-	PSerial_open(0, BAUD9600, SERIAL_8N1);
+	//PSerial_open(0, BAUD9600, SERIAL_8N1);
+	initIRDet();
 	initWheels();
 }
 
@@ -25,11 +27,11 @@ void init() {
 int main(void)
 {
 //PORTB |= 0x80;
-	PSerial_open(0, BAUD9600, SERIAL_8N1);
+	//PSerial_open(0, BAUD9600, SERIAL_8N1);
 	DDRB = 0x80;
-	DDRF |= (1<<DDF0)|(1<<DDF1)|(DDF2);
+	//DDRF |= (1<<DDF0)|(1<<DDF1)|(DDF2);
 	init();
-	PORTJ &= ~(1 << PJ1);
+	//PORTJ &= ~(1 << PJ1);
 	sei();
 
 /* Replace with your application code */
@@ -50,8 +52,8 @@ int main(void)
 		//unsigned long t = getTime();
 		//PSprintf(0, "Time: %X\n\r", t);
 		_delay_ms(3000);
-		turn(90);
-		PORTF |= (1<<PF2);
+		straight(0.5);
+		//PORTF |= (1<<PF2);
 // 		if (which++ % 2) {
 // 			ds = (ds >= 0.5) ? 0.1 : (ds + 0.05);
 // 			_delay_ms(2000);

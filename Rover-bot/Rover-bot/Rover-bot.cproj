@@ -136,10 +136,10 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PSerial.c">
+    <Compile Include="IRdetector.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PSerial.h">
+    <Compile Include="IRdetector.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="time.c">
