@@ -7,42 +7,45 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include "rover.h"
 #include "IRdetector.h"
 #include "wheels.h"
 #include "acx.h"
 #include "acxserial.h"
 
 void initIRDet() {
-	DDRK &= ~0x03;
+	DDRF &= ~((1<<PF7) | (1<<PF6));
 	DDRF |= 0x03;
-	PCICR = 4;
-	DDRF = 0x03;
-	PCMSK2 = (1 << PCINT16) | (1 << PCINT17);
-
 }
 
+int turnedOn = 0;
+
 void irControl() {
-	
+	while(1) {
+		if (getMode() == DONE) {
+			// do nothing
+		} else if(PINF & (1 << PD6) && !(PINF & (1 << PD7))){ //LEFT SENSOR
+			//PORTF |= (1 << PF0);  //TODO This part should change based on what needs to be done if left sensor get high
+			//_delay_ms(100);
+			//PORTF &= 1;
+			turn(-5);
+		}
+		else if(PINF & (1 << PD7) && !(PINF & (1 << PD6))) { //RIGHT SENSOR
+			//PORTF |= (1 << PF1); //TODO This part should change based on what needs to be done if right sensor get high
+			//_delay_ms(100);
+			//PORTF &= 2;
+			turn(5);
+		} else if (!(PINF & (1 << PD6) && (PINF & (1 << PD7)))) {// both sensors
+			stop();
+			if (turnedOn) setMode(DONE);
+			
+		} else {
+			turnedOn = 1;
+		}
+		x_yield();
+	}
 }
 
 void disableIRDet() {
 	
-}
-
-ISR(PCINT2_vect) {
-	
-	if(PINK & (1 << PK0) && !(PINK & (1 << PK1))){ //LEFT SENSOR
-		//PORTF |= (1 << PF0);  //TODO This part should change based on what needs to be done if left sensor get high
-		//_delay_ms(100);
-		//PORTF &= 1;
-		turn(-5);
-	}
-	else if(PINK & (1 << PK1) && !(PINK & (1 << PK0))) { //RIGHT SENSOR
-		//PORTF |= (1 << PF1); //TODO This part should change based on what needs to be done if right sensor get high
-		//_delay_ms(100);
-		//PORTF &= 2;
-		turn(5);
-	} else if (PINK & (1 << PK0) && (PINK & (1 << PK1))) {// both sensors
-		stop();
-	}
 }

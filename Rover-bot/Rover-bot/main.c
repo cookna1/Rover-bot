@@ -11,69 +11,53 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include "rover.h"
 #include "wheels.h"
 //#include "PSerial.h"
 #include "IRdetector.h"
+#include "USsensor.h"
 #include "acx.h"
 #include "acxserial.h"
+
+volatile int mode;
+
+int getMode() {
+	return mode;
+}
+
+void setMode(int newMode) {
+	mode = newMode;
+}
 
 void init() {
 	//setTime();
 	//PSerial_open(0, BAUD9600, SERIAL_8N1);
+	mode = STRAIGHT;
+
 	initIRDet();
 	initWheels();
+	//initUS();
+	sei();
+	
 }
 
 
 int main(void)
 {
-	x_init();
-	x_new(1, irControl, 1);
-//PORTB |= 0x80;
-	//PSerial_open(0, BAUD9600, SERIAL_8N1);
-	DDRB = 0x80;
-	//DDRF |= (1<<DDF0)|(1<<DDF1)|(DDF2);
 	init();
-	//PORTJ &= ~(1 << PJ1);
-	sei();
+	
+	x_init();
+	x_delay(1000);
+	
+
+	x_new(2, wheelControl, 1);
+	x_new(1, irControl, 1);
+	//x_new(3, USdetect, 1);
 
 /* Replace with your application code */
-	//changeDirection(FORWARD, L_WHEEL);
-	
-	setDutyCycle(0, L_WHEEL);
-	setDutyCycle(0, R_WHEEL);
-
-	//PORTL = 0x18;
-	//PORTC = 0;
-	//PORTC = L_FORWARD|R_FORWARD;
-	
-
 	
 	while (1)
-	{
-		//unsigned long t = getTime();
-		//PSprintf(0, "Time: %X\n\r", t);
-		straight(0.5);
-		//PORTF |= (1<<PF2);
-// 		if (which++ % 2) {
-// 			ds = (ds >= 0.5) ? 0.1 : (ds + 0.05);
-// 			_delay_ms(2000);
-// 			setDutyCycle(ds, L_WHEEL);
-// 			setDutyCycle(ds, R_WHEEL);
-// 		} else {
-// 			ds = (ds >= .05) ? 0.1 : (ds + 0.05);
-// 			_delay_ms(2000);
-// 			setDutyCycle(ds, R_WHEEL);
-// 			setDutyCycle(ds, L_WHEEL);
-// 		}
-// 		int on = PINJ & (1<<PJ0);
-// 		if (on) {
-// 			PORTB |= 0x80;
-// 		}
-// 		else {
-// 			PORTB &= ~0x80;
-// 		}
-		
+	{		//turn(90);		//_delay_ms(2000); 		x_yield();
 	}
 }
 

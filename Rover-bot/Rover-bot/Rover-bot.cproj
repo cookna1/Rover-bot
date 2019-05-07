@@ -158,10 +158,19 @@
     <Compile Include="acxserial.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="USsensor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USsenor.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="IRdetector.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="IRdetector.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="rover.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="time.c">

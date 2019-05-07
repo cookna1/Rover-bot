@@ -8,6 +8,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "rover.h"
 #include "wheels.h"
 #include "acx.h"
 #include "acxserial.h"
@@ -34,13 +35,24 @@ volatile unsigned int RwasOn;
 int LwasOn;
 int oldJ = 0;
 
+void wheelControl(){
+	while(1) {
+		if (getMode() == STRAIGHT) {
+			if(l_ds == 0) {
+				straight(0.2);
+			}
+		}
+		x_yield();
+	}
+}
+
 void go1foot() {
 	leftCount = 0;
 	rightcount = 0;
 	straight(0.7);
 	float inches = 0;
 	while(leftCount < 150) {
-		 PORTF ^= (1<<PF2);
+		 //PORTF ^= (1<<PF2);
 	}
 	straight(0);
 }
@@ -53,6 +65,8 @@ void straight(float ds) {
 }
 
 void stop() {
+	
+	setMode(STOPPED);
 	changeDirection(FORWARD, L_WHEEL);
 	changeDirection(FORWARD, R_WHEEL);
 	straight(0);
@@ -62,8 +76,8 @@ void setTurnLeft() {
 	
 	changeDirection(FORWARD, L_WHEEL);
 	changeDirection(BACKWARD, R_WHEEL);
-	setDutyCycle(0.7, L_WHEEL);
-	setDutyCycle(0.7, R_WHEEL);
+	setDutyCycle(0.5, L_WHEEL);
+	setDutyCycle(0.5, R_WHEEL);
 }
 
 
@@ -71,30 +85,34 @@ void setTurnRight() {
 	
 	changeDirection(BACKWARD, L_WHEEL);
 	changeDirection(FORWARD, R_WHEEL);
-	setDutyCycle(0.7, L_WHEEL);
-	setDutyCycle(0.7, R_WHEEL);
+	setDutyCycle(0.5, L_WHEEL);
+	setDutyCycle(0.5, R_WHEEL);
 }
 
 void turn(int d) {
+	int oldMode = getMode();
 	stop();
+	setMode(TURNING);
 	//_delay_ms(100);
 	cli();
 	
 	if (d > 0) setTurnLeft();
-	else setTurnRight();
-	
+	else  {
+		d *= -1;
+		setTurnRight();
+	}
 	leftCount = 0;
 	rightcount = 0;
 	
 	sei();
 	
-	int count = (d * 50) / 90;
+	int count = (d * 25) / 90;
 
 	while(leftCount < count) {
 		 PORTF ^= (1<<PF2);
 	}
 	stop();
-	
+	setMode(oldMode);
 }
 
 void initWheels() {
@@ -154,8 +172,15 @@ void setDutyCycle(float dutycycle, int wheel) {
 	} else {
 		int ontime = ((int)(dutycycle * 400.0) + 400) ;
 		
-		if (wheel == L_WHEEL) OCR5A = ontime ;
-		else if (wheel == R_WHEEL) OCR5B = ontime + 25;
+		if (wheel == L_WHEEL) {
+			for (int i = 0; i < ontime; i += 1) {
+				OCR5A = i;
+			}
+		} else if (wheel == R_WHEEL) {
+			for (int i = 0; i < ontime; i += 1) {
+				OCR5B = i;
+			}
+		}
 	}
 	TCNT5 = 0;
 	sei();
@@ -173,7 +198,7 @@ ISR(PCINT1_vect) {
 	
 	int change = J ^ oldJ;
 	
-	PORTF = change;
+	//PORTF = change;
 	
 	int RisON = (PINJ | (1<<PJ1));
 	int LisON = (PINJ | (1<<PJ0));

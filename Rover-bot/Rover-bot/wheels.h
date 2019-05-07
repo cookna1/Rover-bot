@@ -30,6 +30,7 @@ void initWheels();
 void straight(float ds);
 void turn(int d);
 void stop() ;
+void wheelControl();
 
 void go1foot();
 
