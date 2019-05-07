@@ -69,9 +69,6 @@ Discarded input sections
  .text          0x00000000        0x0 USsenor.o
  .data          0x00000000        0x0 USsenor.o
  .bss           0x00000000        0x0 USsenor.o
- .text.initUS   0x00000000       0x1a USsenor.o
- .text.USdetect
-                0x00000000       0x36 USsenor.o
  .text          0x00000000        0x0 IRdetector.o
  .data          0x00000000        0x0 IRdetector.o
  .bss           0x00000000        0x0 IRdetector.o
@@ -360,7 +357,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xbf6
+.text           0x00000000      0xc56
  *(.vectors)
  .vectors       0x00000000       0xe4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
                 0x00000000                __vector_default
@@ -478,127 +475,132 @@ END GROUP
                 0x00000202                bit2mask8
                 0x00000216                . = ALIGN (0x2)
  *(.text.*)
+ .text.initUS   0x00000216       0x22 USsenor.o
+                0x00000216                initUS
+ .text.USdetect
+                0x00000238       0x28 USsenor.o
+                0x00000238                USdetect
  .text.__vector_11
-                0x00000216       0x7a USsenor.o
-                0x00000216                __vector_11
+                0x00000260       0x82 USsenor.o
+                0x00000260                __vector_11
  .text.initIRDet
-                0x00000290        0xe IRdetector.o
-                0x00000290                initIRDet
+                0x000002e2        0xe IRdetector.o
+                0x000002e2                initIRDet
  .text.irControl
-                0x0000029e       0x54 IRdetector.o
-                0x0000029e                irControl
+                0x000002f0       0x54 IRdetector.o
+                0x000002f0                irControl
  .text.__vector_13
-                0x000002f2       0x4a time.o
-                0x000002f2                __vector_13
+                0x00000344       0x4a time.o
+                0x00000344                __vector_13
  .text.changeDirection
-                0x0000033c       0x44 wheels.o
-                0x0000033c                changeDirection
+                0x0000038e       0x44 wheels.o
+                0x0000038e                changeDirection
  .text.setDutyCycle
-                0x00000380       0xa6 wheels.o
-                0x00000380                setDutyCycle
+                0x000003d2       0xa6 wheels.o
+                0x000003d2                setDutyCycle
  .text.straight
-                0x00000426       0x2a wheels.o
-                0x00000426                straight
+                0x00000478       0x2a wheels.o
+                0x00000478                straight
  .text.wheelControl
-                0x00000450       0x20 wheels.o
-                0x00000450                wheelControl
- .text.stop     0x00000470       0x24 wheels.o
-                0x00000470                stop
+                0x000004a2       0x20 wheels.o
+                0x000004a2                wheelControl
+ .text.stop     0x000004c2       0x24 wheels.o
+                0x000004c2                stop
  .text.setTurnLeft
-                0x00000494       0x32 wheels.o
-                0x00000494                setTurnLeft
+                0x000004e6       0x32 wheels.o
+                0x000004e6                setTurnLeft
  .text.setTurnRight
-                0x000004c6       0x32 wheels.o
-                0x000004c6                setTurnRight
- .text.turn     0x000004f8       0x82 wheels.o
-                0x000004f8                turn
+                0x00000518       0x32 wheels.o
+                0x00000518                setTurnRight
+ .text.turn     0x0000054a       0x82 wheels.o
+                0x0000054a                turn
  .text.initWheels
-                0x0000057a       0x92 wheels.o
-                0x0000057a                initWheels
+                0x000005cc       0x92 wheels.o
+                0x000005cc                initWheels
  .text.__vector_10
-                0x0000060c       0x96 wheels.o
-                0x0000060c                __vector_10
- .text.getMode  0x000006a2        0xa main.o
-                0x000006a2                getMode
- .text.setMode  0x000006ac        0xa main.o
-                0x000006ac                setMode
- .text.init     0x000006b6       0x14 main.o
-                0x000006b6                init
- .text.main     0x000006ca       0x26 main.o
-                0x000006ca                main
+                0x0000065e       0x96 wheels.o
+                0x0000065e                __vector_10
+ .text.getMode  0x000006f4        0xa main.o
+                0x000006f4                getMode
+ .text.setMode  0x000006fe        0xa main.o
+                0x000006fe                setMode
+ .text.init     0x00000708       0x16 main.o
+                0x00000708                init
+ .text.main     0x0000071e       0x32 main.o
+                0x0000071e                main
  .text.avr-libc.fplib
-                0x000006f0        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(cmpsf2.o)
-                0x000006f0                __nesf2
-                0x000006f0                __eqsf2
-                0x000006f0                __cmpsf2
-                0x000006f0                __ltsf2
-                0x000006f0                __lesf2
+                0x00000750        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(cmpsf2.o)
+                0x00000750                __nesf2
+                0x00000750                __eqsf2
+                0x00000750                __cmpsf2
+                0x00000750                __ltsf2
+                0x00000750                __lesf2
  .text.avr-libc.fplib
-                0x000006f8        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fixsfsi.o)
-                0x000006f8                __fixsfsi
+                0x00000758        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fixsfsi.o)
+                0x00000758                __fixsfsi
  .text.avr-libc.fplib
-                0x00000702       0x58 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fixunssfsi.o)
-                0x00000702                __fixunssfsi
+                0x00000762       0x58 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fixunssfsi.o)
+                0x00000762                __fixunssfsi
  .text.avr-libc.fplib
-                0x0000075a       0x48 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_cmp.o)
-                0x0000075a                __fp_cmp
+                0x000007ba       0x48 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_cmp.o)
+                0x000007ba                __fp_cmp
  .text.avr-libc.fplib
-                0x000007a2       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_split3.o)
-                0x000007a2                __fp_split3
-                0x000007b2                __fp_splitA
+                0x00000802       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_split3.o)
+                0x00000802                __fp_split3
+                0x00000812                __fp_splitA
  .text.avr-libc.fplib
-                0x000007e6        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_zero.o)
-                0x000007e6                __fp_zero
-                0x000007e8                __fp_szero
+                0x00000846        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_zero.o)
+                0x00000846                __fp_zero
+                0x00000848                __fp_szero
  .text.avr-libc.fplib
-                0x000007f4        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(mulsf3.o)
-                0x000007f4                __mulsf3
+                0x00000854        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(mulsf3.o)
+                0x00000854                __mulsf3
  .text.avr-libc.fplib
-                0x000007f8       0xc2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(mulsf3x.o)
-                0x0000080c                __mulsf3x
-                0x00000810                __mulsf3_pse
+                0x00000858       0xc2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(mulsf3x.o)
+                0x0000086c                __mulsf3x
+                0x00000870                __mulsf3_pse
  .text.avr-libc.fplib
-                0x000008ba        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_inf.o)
-                0x000008ba                __fp_inf
+                0x0000091a        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_inf.o)
+                0x0000091a                __fp_inf
  .text.avr-libc.fplib
-                0x000008c6        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_nan.o)
-                0x000008c6                __fp_nan
+                0x00000926        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_nan.o)
+                0x00000926                __fp_nan
  .text.avr-libc.fplib
-                0x000008cc        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_pscA.o)
-                0x000008cc                __fp_pscA
+                0x0000092c        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_pscA.o)
+                0x0000092c                __fp_pscA
  .text.avr-libc.fplib
-                0x000008da        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_pscB.o)
-                0x000008da                __fp_pscB
+                0x0000093a        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_pscB.o)
+                0x0000093a                __fp_pscB
  .text.avr-libc.fplib
-                0x000008e8       0x22 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_round.o)
-                0x000008e8                __fp_round
- .text.x_new    0x0000090a       0x68 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
-                0x0000090a                x_new
+                0x00000948       0x22 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_round.o)
+                0x00000948                __fp_round
+ .text.x_new    0x0000096a       0x68 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+                0x0000096a                x_new
  .text.init_System_Timer
-                0x00000972       0x12 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
-                0x00000972                init_System_Timer
- .text.x_init   0x00000984       0xee C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
-                0x00000984                x_init
- .text.x_delay  0x00000a72       0x2c C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
-                0x00000a72                x_delay
+                0x000009d2       0x12 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+                0x000009d2                init_System_Timer
+ .text.x_init   0x000009e4       0xee C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+                0x000009e4                x_init
+ .text.x_delay  0x00000ad2       0x2c C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+                0x00000ad2                x_delay
  .text.__vector_21
-                0x00000a9e       0x98 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
-                0x00000a9e                __vector_21
+                0x00000afe       0x98 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+                0x00000afe                __vector_21
  .text.x_stack_overflow
-                0x00000b36       0x6e C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
-                0x00000b36                x_stack_overflow
+                0x00000b96       0x6e C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+                0x00000b96                x_stack_overflow
  .text.libgcc.div
-                0x00000ba4       0x26 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
-                0x00000ba4                _div
-                0x00000ba4                __divmodhi4
+                0x00000c04       0x26 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
+                0x00000c04                _div
+                0x00000c04                __divmodhi4
  .text.libgcc.div
-                0x00000bca       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodhi4.o)
-                0x00000bca                __udivmodhi4
-                0x00000bf2                . = ALIGN (0x2)
+                0x00000c2a       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodhi4.o)
+                0x00000c2a                __udivmodhi4
+                0x00000c52                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000bf2        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
-                0x00000bf2                _exit
-                0x00000bf2                exit
+ .fini9         0x00000c52        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
+                0x00000c52                _exit
+                0x00000c52                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -617,11 +619,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000bf2        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
+ .fini0         0x00000c52        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000bf6                _etext = .
+                0x00000c56                _etext = .
 
-.data           0x00800200       0x10 load address 0x00000bf6
+.data           0x00800200       0x10 load address 0x00000c56
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -679,8 +681,8 @@ END GROUP
                 0x00800a6f                x_disable_status
                 0x00800a70                x_thread_mask
                 0x00800a71                PROVIDE (__bss_end, .)
-                0x00000bf6                __data_load_start = LOADADDR (.data)
-                0x00000c06                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000c56                __data_load_start = LOADADDR (.data)
+                0x00000c66                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800a71        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -776,38 +778,38 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x2128
+.debug_info     0x00000000     0x21fb
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xbbc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_info    0x00000bbc      0x173 USsenor.o
- .debug_info    0x00000d2f      0x178 IRdetector.o
- .debug_info    0x00000ea7      0x109 time.o
- .debug_info    0x00000fb0      0x733 wheels.o
- .debug_info    0x000016e3      0x1d6 main.o
- .debug_info    0x000018b9       0x6a C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(acx_asm.o)
- .debug_info    0x00001923      0x805 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+ .debug_info    0x00000bbc      0x213 USsenor.o
+ .debug_info    0x00000dcf      0x178 IRdetector.o
+ .debug_info    0x00000f47      0x109 time.o
+ .debug_info    0x00001050      0x733 wheels.o
+ .debug_info    0x00001783      0x209 main.o
+ .debug_info    0x0000198c       0x6a C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(acx_asm.o)
+ .debug_info    0x000019f6      0x805 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
 
-.debug_abbrev   0x00000000     0x1302
+.debug_abbrev   0x00000000     0x1388
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0xb1a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_abbrev  0x00000b1a       0xf2 USsenor.o
- .debug_abbrev  0x00000c0c       0xb1 IRdetector.o
- .debug_abbrev  0x00000cbd       0x92 time.o
- .debug_abbrev  0x00000d4f      0x190 wheels.o
- .debug_abbrev  0x00000edf       0xf2 main.o
- .debug_abbrev  0x00000fd1       0x14 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(acx_asm.o)
- .debug_abbrev  0x00000fe5      0x31d C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+ .debug_abbrev  0x00000b1a      0x178 USsenor.o
+ .debug_abbrev  0x00000c92       0xb1 IRdetector.o
+ .debug_abbrev  0x00000d43       0x92 time.o
+ .debug_abbrev  0x00000dd5      0x190 wheels.o
+ .debug_abbrev  0x00000f65       0xf2 main.o
+ .debug_abbrev  0x00001057       0x14 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(acx_asm.o)
+ .debug_abbrev  0x0000106b      0x31d C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
 
-.debug_line     0x00000000     0x122c
+.debug_line     0x00000000     0x128f
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x1f9 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_line    0x000001f9      0x16e USsenor.o
- .debug_line    0x00000367      0x165 IRdetector.o
- .debug_line    0x000004cc      0x10d time.o
- .debug_line    0x000005d9      0x41b wheels.o
- .debug_line    0x000009f4       0xe0 main.o
- .debug_line    0x00000ad4      0x2b8 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(acx_asm.o)
- .debug_line    0x00000d8c      0x4a0 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+ .debug_line    0x000001f9      0x1b7 USsenor.o
+ .debug_line    0x000003b0      0x165 IRdetector.o
+ .debug_line    0x00000515      0x10d time.o
+ .debug_line    0x00000622      0x41b wheels.o
+ .debug_line    0x00000a3d       0xfa main.o
+ .debug_line    0x00000b37      0x2b8 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(acx_asm.o)
+ .debug_line    0x00000def      0x4a0 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
 
 .debug_frame    0x00000000      0x3f0
  *(.debug_frame)
@@ -818,28 +820,28 @@ END GROUP
  .debug_frame   0x00000260       0x54 main.o
  .debug_frame   0x000002b4      0x13c C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
 
-.debug_str      0x00000000      0x9db
+.debug_str      0x00000000      0x9ea
  *(.debug_str)
  .debug_str     0x00000000      0x3e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_str     0x000003e6      0x198 USsenor.o
-                                0x1d1 (size before relaxing)
- .debug_str     0x0000057e       0x4e IRdetector.o
+ .debug_str     0x000003e6      0x1e2 USsenor.o
+                                0x21b (size before relaxing)
+ .debug_str     0x000005c8       0x56 IRdetector.o
                                 0x1d4 (size before relaxing)
- .debug_str     0x000005cc       0x64 time.o
+ .debug_str     0x0000061e       0x64 time.o
                                 0x1cc (size before relaxing)
- .debug_str     0x00000630      0x151 wheels.o
+ .debug_str     0x00000682      0x151 wheels.o
                                 0x2f8 (size before relaxing)
- .debug_str     0x00000781       0x2b main.o
-                                0x1d3 (size before relaxing)
- .debug_str     0x000007ac      0x22f C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+ .debug_str     0x000007d3       0x33 main.o
+                                0x1da (size before relaxing)
+ .debug_str     0x00000806      0x1e4 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
                                 0x399 (size before relaxing)
 
-.debug_loc      0x00000000      0xb78
+.debug_loc      0x00000000      0xb99
  *(.debug_loc)
- .debug_loc     0x00000000       0x87 USsenor.o
- .debug_loc     0x00000087       0x63 time.o
- .debug_loc     0x000000ea      0x41d wheels.o
- .debug_loc     0x00000507      0x671 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
+ .debug_loc     0x00000000       0xa8 USsenor.o
+ .debug_loc     0x000000a8       0x63 time.o
+ .debug_loc     0x0000010b      0x41d wheels.o
+ .debug_loc     0x00000528      0x671 C:\Users\thorpah\Documents\GitHub\Rover-bot\Rover-bot\Rover-bot\libacx.a(library.o)
 
 .debug_macinfo
  *(.debug_macinfo)

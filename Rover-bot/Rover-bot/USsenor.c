@@ -17,12 +17,12 @@
 static volatile int pulse = 0;
 static volatile int i = 0;
 
-int initUS() {
+void initUS() {
 // 	DDRB = 0xFF;
  	DDRD &= 0xFB;
 	
-	PCICR = 4;
-	PCMSK2 = (1 << PCINT16) | (1 << PCINT17);
+	PCICR |= (1<<PCIE2);
+	PCMSK2 |= (1 << PCINT16) | (1 << PCINT17);
 	MCUCR|=(1<<ISC00);
 	
 	TCCR1A = 0;
@@ -32,22 +32,22 @@ int USdetect(void)
 {
 	int distance = 0; //storing digital output
 
-	x_delay(70);
+	_delay_ms(70);
 	
 	while(1)
 	{
-		if (getMode() != DONE) {
+		if (1) {
 			PORTD|=(1<<PIND0); //trigger high
-			x_delay(10);
+			_delay_us(12);
 			PORTD = (0<< PIND0); //trigger low
 		
 			distance = pulse/58; //distance
 
-			if(distance > 100){
+			if(distance < 100){
 				//setMode(DONE);
-				PORTF |= 0x01;
+				//PORTF |= 0x01;
 			} else {
-				PORTF &= ~0x01;
+				//PORTF &= ~0x01;
 			}
 			distance = 0;
 		}
@@ -58,9 +58,10 @@ int USdetect(void)
 
 ISR(PCINT2_vect) {
 	
+	PORTF ^= 0x01;
+
  	if (i==1) // HIGH to LOW
  	{
-		 
 	 	TCCR1B=0; //stop counter
 	 	pulse=TCNT1; //count memory is updated to int
 	 	TCNT1=0; //resetting t he counter memory

@@ -36,7 +36,7 @@ void init() {
 
 	initIRDet();
 	initWheels();
-	//initUS();
+	initUS();
 	sei();
 	
 }
@@ -52,7 +52,7 @@ int main(void)
 
 	x_new(2, wheelControl, 1);
 	x_new(1, irControl, 1);
-	//x_new(3, USdetect, 1);
+	x_new(3, USdetect, 1);
 
 /* Replace with your application code */
 	
